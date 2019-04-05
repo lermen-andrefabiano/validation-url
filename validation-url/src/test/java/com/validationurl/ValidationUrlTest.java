@@ -1,6 +1,7 @@
 package com.validationurl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -37,8 +38,12 @@ public class ValidationUrlTest {
 	private ValidationUrl validationUrl;
 
 	private String client;
+	
+	private String clientMatch;
 
 	private String url;
+	
+	private String urlGlobal;
 
 	private String regex;
 
@@ -52,11 +57,13 @@ public class ValidationUrlTest {
 		this.url = "www.google.com";
 		this.correlationId = 9;
 		this.regex = "(?i)www.google.com";
-		this.regexGlobal = "[0-9]";
+		this.regexGlobal = "[0-9]+";
+		this.urlGlobal = "965356";
+		this.clientMatch = "Client March";
 	}
 
 	@Test
-	public void validationUrlClient() throws Exception {
+	public void validationUrlClientPositive() throws Exception {
 		List<WhiteList> whiteListClient = this.obterWhileList();
 		when(this.whiteListRep.findByClient(this.client)).thenReturn(whiteListClient);
 
@@ -68,6 +75,36 @@ public class ValidationUrlTest {
 
 		assertEquals(response.isMatch(), Boolean.TRUE);
 
+	}
+
+	@Test
+	public void validationUrlClientNegative() throws Exception {
+		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
+
+		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();
+		when(this.whiteListGlobalRep.findAll()).thenReturn(whiteListClientGlobal);
+
+		PayloadValidationResponse response = this.validationUrl.validationUrlClient(this.clientMatch, this.url,
+				this.correlationId);
+
+		assertEquals(response.isMatch(), Boolean.FALSE);
+		
+		assertNull(response.getRegex());
+
+	}
+	
+	@Test
+	public void validationUrlClientPositiveGlobal() throws Exception {
+		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
+
+		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();
+		when(this.whiteListGlobalRep.findAll()).thenReturn(whiteListClientGlobal);
+
+		PayloadValidationResponse response = this.validationUrl.validationUrlClient(this.clientMatch, this.urlGlobal,
+				this.correlationId);
+
+		assertEquals(response.isMatch(), Boolean.TRUE);
+		
 	}
 
 	private List<WhiteList> obterWhileList() {
