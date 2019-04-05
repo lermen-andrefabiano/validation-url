@@ -34,21 +34,16 @@ public class RabbitConfig {
 	@Bean
 	@Primary
 	public Queue queueInsertion() {
-		return new Queue(queueInsertion, true);
+		return new Queue(this.queueInsertion, true);
 	}
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host, port);
-		connectionFactory.setUsername(username);
-		connectionFactory.setPassword(password);
-		connectionFactory.setVirtualHost(virtualHost);
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(this.host, this.port);
+		connectionFactory.setUsername(this.username);
+		connectionFactory.setPassword(this.password);
+		connectionFactory.setVirtualHost(this.virtualHost);
 		return connectionFactory;
-	}
-
-	@Bean
-	public AmqpAdmin amqpAdmin() {
-		return new RabbitAdmin(connectionFactory());
 	}
 
 }

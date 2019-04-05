@@ -18,14 +18,14 @@ import com.validationurl.consumer.ValidationUrlConsumer;
 public class Application implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
-	
+
 	@Value("${rabbitmq.queue.number.consumers:2}")
 	private int numberConsumers;
 
 	public static void main(String[] args) {
-		logger.info(">> main...");
+		logger.info(">> Iniciou aplicação...");
 		SpringApplication.run(Application.class, args);
-		logger.info("<< main...");
+		logger.info("<< Iniciou aplicação...");
 	}
 
 	private ConfigurableApplicationContext context;
@@ -37,13 +37,13 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-		logger.info("Create consumers");
-		for (int i = 0; i < numberConsumers; i++) {
-			ValidationUrlConsumer consumer = context.getBeanFactory().createBean(ValidationUrlConsumer.class);
-			context.getBeanFactory().registerSingleton("ValidationUrlConsumer_" + i, consumer);
+		logger.debug(String.format("Create consumers= %s", this.numberConsumers));
+		for (int i = 0; i < this.numberConsumers; i++) {
+			ValidationUrlConsumer consumer = this.context.getBeanFactory().createBean(ValidationUrlConsumer.class);
+			this.context.getBeanFactory().registerSingleton("ValidationUrlConsumer_" + i, consumer);
 		}
 
-		RabbitAdmin admin = context.getBean(RabbitAdmin.class);
+		RabbitAdmin admin = this.context.getBean(RabbitAdmin.class);
 		admin.initialize();
 	}
 

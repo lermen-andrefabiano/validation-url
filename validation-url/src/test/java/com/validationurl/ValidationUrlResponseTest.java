@@ -1,5 +1,6 @@
 package com.validationurl;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -30,10 +31,6 @@ public class ValidationUrlResponseTest {
 
 	private Integer correlationId;
 
-	private String exchange;
-
-	private String routingKey;
-
 	@Before
 	public void init() {
 		this.regex = "(?i)www.google.com";
@@ -45,7 +42,7 @@ public class ValidationUrlResponseTest {
 		PayloadValidationResponse payloadRes = this.obterValidationResponse();
 		this.validationUrlResponse.responseUrlClient(payloadRes);
 
-		//verify(this.rabbitTemplate).convertAndSend(this.exchange, this.routingKey, payloadRes);
+		verify(this.rabbitTemplate).convertAndSend(any(String.class), any(String.class), any(String.class));
 
 	}
 

@@ -2,14 +2,19 @@ package com.validationurl.payload;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PayloadValidationResponse implements Serializable {
 
 	private static final long serialVersionUID = 9022567930709932320L;
 
+	@JsonProperty(required = true)
 	private boolean match;
 
+	@JsonProperty(required = true)
 	private String regex;
 
+	@JsonProperty(required = true)
 	private Integer correlationId;
 
 	public PayloadValidationResponse() {

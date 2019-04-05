@@ -1,6 +1,25 @@
-FROM openjdk:8-jre-alpine
-EXPOSE 8090
-#ENV JAVA_OPTS -Duser.timezone=America/Sao_Paulo
-ADD /target/validation-url-1.0.0.jar validation-url-1.0.0.jar
-#ENTRYPOINT exec java $JAVA_OPTS -jar /opt/api.jar
-CMD java -jar validation-url-1.0.0.jar
+FROM alpine:3.9
+
+ENV LANG C.UTF-8
+
+RUN { \
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
+	
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
+ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+
+ENV JAVA_VERSION 8u201
+ENV JAVA_ALPINE_VERSION 8.201.08-r1
+
+RUN set -x \
+	&& apk add --no-cache \
+		openjdk8-jre="$JAVA_ALPINE_VERSION" \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
+	
+ADD /target/validation-url-1.0.0.jar validation-url.jar
+ENTRYPOINT ["java", "-jar", "validation-url.jar"]
