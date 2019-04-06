@@ -48,7 +48,8 @@ public class InsertUrlConsumer implements Serializable {
 
 			this.validationPayload(request);
 
-			if (request.getClient() != null && !"null".equalsIgnoreCase(request.getClient())) {
+			if (request.getClient() != null && !"null".equalsIgnoreCase(request.getClient())
+					&& !request.getClient().isEmpty()) {
 				logger.info("White list");
 				this.whiteListRep.save(new WhiteList(request.getClient(), request.getRegex()));
 			} else {
