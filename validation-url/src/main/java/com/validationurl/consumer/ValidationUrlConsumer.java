@@ -1,7 +1,6 @@
 package com.validationurl.consumer;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.validationurl.BusinessException;
 import com.validationurl.model.ClientHistoryResponse;
 import com.validationurl.payload.PayloadValidationRequest;
 import com.validationurl.payload.PayloadValidationResponse;
@@ -29,11 +29,9 @@ import com.validationurl.validation.ValidationUrlResponse;
  * 
  */
 @Component
-public class ValidationUrlConsumer implements Serializable {
+public class ValidationUrlConsumer {
 
-	private static final long serialVersionUID = 913787565926806350L;
-
-	private static final Logger logger = LoggerFactory.getLogger(ValidationUrlConsumer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUrlConsumer.class);
 
 	@Autowired
 	private ValidationUrl validationUrl;
@@ -46,16 +44,15 @@ public class ValidationUrlConsumer implements Serializable {
 
 	@RabbitListener(queues = { "${rabbitmq.queue.validation}" })
 	public void receive(@Payload String fileBody) {
-		logger.info(">> ValidationUrlConsumer receive");
-		logger.debug(String.format("Receive payload %s", fileBody));
+		LOGGER.info(">> ValidationUrlConsumer receive");
+		LOGGER.debug("Receive payload {}", fileBody);
 
 		try {
 			PayloadValidationRequest request = this.bodyToPayLoad(fileBody);
 
 			this.validationPayload(request);
 
-			logger.debug(String.format("client: %s url: %s correlationId: %s", request.getClient(), request.getUrl(),
-					request.getCorrelationId()));
+			LOGGER.debug("client: {} url: {} correlationId: {}", request.getClient(), request.getUrl(),	request.getCorrelationId());
 
 			PayloadValidationResponse response = this.validationUrl.validationUrlClient(request.getClient(),
 					request.getUrl(), request.getCorrelationId());
@@ -65,23 +62,23 @@ public class ValidationUrlConsumer implements Serializable {
 			this.clientHistoryResponseRep.save(new ClientHistoryResponse(response.getRegex(), request.getClient(),
 					response.isMatch(), request.getUrl(), response.getCorrelationId()));
 		} catch (Exception e) {
-			logger.error("Erro ao consumir fila: " + e.getMessage());
+			LOGGER.error("Erro ao consumir fila: {}", e.getMessage());
 		}
 
-		logger.info("<< ValidationUrlConsumer receive");
+		LOGGER.info("<< ValidationUrlConsumer receive");
 	}
 
-	private void validationPayload(PayloadValidationRequest request) throws Exception {
+	private void validationPayload(PayloadValidationRequest request) throws BusinessException {
 		if (request.getUrl() == null || request.getUrl().isEmpty()) {
-			throw new Exception("Url invalid");
+			throw new BusinessException("Url invalid");
 		}
 
 		if (request.getCorrelationId() == null) {
-			throw new Exception("Correlation invalid");
+			throw new BusinessException("Correlation invalid");
 		}
 
 		if (request.getClient() == null || request.getClient().isEmpty()) {
-			throw new Exception("Client invalid");
+			throw new BusinessException("Client invalid");
 		}
 	}
 
@@ -92,7 +89,7 @@ public class ValidationUrlConsumer implements Serializable {
 		try {
 			payloadDTO = mapper.readValue(fileBody, PayloadValidationRequest.class);
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 
 		return payloadDTO;

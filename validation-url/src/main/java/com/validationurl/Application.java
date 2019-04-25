@@ -17,15 +17,15 @@ import com.validationurl.consumer.ValidationUrlConsumer;
 @EnableRabbit
 public class Application implements CommandLineRunner {
 
-	private static final Logger logger = LoggerFactory.getLogger(Application.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	@Value("${rabbitmq.queue.number.consumers:2}")
 	private int numberConsumers;
 
 	public static void main(String[] args) {
-		logger.info(">> Iniciou aplicação...");
+		LOGGER.info(">> Iniciou aplicação...");
 		SpringApplication.run(Application.class, args);
-		logger.info("<< Iniciou aplicação...");
+		LOGGER.info("<< Iniciou aplicação...");
 	}
 
 	private ConfigurableApplicationContext context;
@@ -37,7 +37,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-		logger.debug(String.format("Create consumers= %s", this.numberConsumers));
+		LOGGER.debug("Create consumers = {}", this.numberConsumers);
 		for (int i = 0; i < this.numberConsumers; i++) {
 			ValidationUrlConsumer consumer = this.context.getBeanFactory().createBean(ValidationUrlConsumer.class);
 			this.context.getBeanFactory().registerSingleton("ValidationUrlConsumer_" + i, consumer);

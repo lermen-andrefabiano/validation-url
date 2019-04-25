@@ -1,7 +1,6 @@
 package com.validationurl.consumer;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.validationurl.BusinessException;
 import com.validationurl.model.WhiteList;
 import com.validationurl.model.WhiteListGlobal;
 import com.validationurl.payload.PayloadInsertRequest;
@@ -26,11 +26,9 @@ import com.validationurl.repository.WhiteListRepository;
  */
 
 @Component
-public class InsertUrlConsumer implements Serializable {
+public class InsertUrlConsumer {
 
-	private static final long serialVersionUID = 992889932136919981L;
-
-	private static final Logger logger = LoggerFactory.getLogger(InsertUrlConsumer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(InsertUrlConsumer.class);
 
 	@Autowired
 	private WhiteListGlobalRepository whiteListGlobalRep;
@@ -40,8 +38,8 @@ public class InsertUrlConsumer implements Serializable {
 
 	@RabbitListener(queues = { "${rabbitmq.queue.insertion}" })
 	public void receive(@Payload String fileBody) {
-		logger.info(">> InsertUrlConsumer receive");
-		logger.debug(String.format("Receive payload %s", fileBody));
+		LOGGER.info(">> InsertUrlConsumer receive");
+		LOGGER.debug("Receive payload {}", fileBody);
 
 		try {
 			PayloadInsertRequest request = this.bodyToPayLoad(fileBody);
@@ -50,25 +48,25 @@ public class InsertUrlConsumer implements Serializable {
 
 			if (request.getClient() != null && !"null".equalsIgnoreCase(request.getClient())
 					&& !request.getClient().isEmpty()) {
-				logger.info("White list");
+				LOGGER.info("White list");
 				this.whiteListRep.save(new WhiteList(request.getClient(), request.getRegex()));
 			} else {
-				logger.info("White list global");
+				LOGGER.info("White list global");
 				this.whiteListGlobalRep.save(new WhiteListGlobal(request.getRegex()));
 			}
 		} catch (Exception e) {
-			logger.error("Erro ao consumir fila: " + e.getMessage());
+			LOGGER.error("Erro ao consumir fila: {}", e.getMessage());
 		}
 
-		logger.info("<< InsertUrlConsumer receive");
+		LOGGER.info("<< InsertUrlConsumer receive");
 	}
 
-	private void validationPayload(PayloadInsertRequest request) throws Exception {
+	private void validationPayload(PayloadInsertRequest request) throws BusinessException {
 		if (request == null) {
-			throw new Exception("Invalid");
+			throw new BusinessException("Invalid");
 		}
 		if (request.getRegex() == null || request.getRegex().isEmpty()) {
-			throw new Exception("Regex invalid");
+			throw new BusinessException("Regex invalid");
 		}
 	}
 
@@ -79,7 +77,7 @@ public class InsertUrlConsumer implements Serializable {
 		try {
 			payloadDTO = mapper.readValue(fileBody, PayloadInsertRequest.class);
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 
 		return payloadDTO;

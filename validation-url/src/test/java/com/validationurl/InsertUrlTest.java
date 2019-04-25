@@ -5,9 +5,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -36,12 +33,8 @@ public class InsertUrlTest {
 	@InjectMocks
 	private InsertUrlConsumer insertUrlConsumer;
 
-	@Before
-	public void init() {
-	}
-
 	@Test
-	public void saveClientWhiteList() throws IOException {
+	public void saveClientWhiteList() {
 		String payload = "{\"client\": \"client rabbit\", \"regex\": \"[a-z]\"}";
 
 		when(this.whiteListRep.save(any(WhiteList.class))).thenReturn(null);
@@ -53,7 +46,7 @@ public class InsertUrlTest {
 	}
 
 	@Test
-	public void saveWhiteListGlobal() throws IOException {
+	public void saveWhiteListGlobal() {
 		String payload = "{\"client\": null, \"regex\": \"[a-z]\"}";
 
 		when(this.whiteListGlobalRep.save(any(WhiteListGlobal.class))).thenReturn(null);
@@ -65,7 +58,7 @@ public class InsertUrlTest {
 	}
 
 	@Test
-	public void invalidJSONIsReceived() throws IOException {
+	public void invalidJSONIsReceived() {
 		String payload = "{\"invalid\": \"client rabbit\", \"regex\": \"[a-z]\"}";
 
 		this.insertUrlConsumer.receive(payload);

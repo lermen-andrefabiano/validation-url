@@ -63,7 +63,7 @@ public class ValidationUrlTest {
 	}
 
 	@Test
-	public void validationUrlClientPositive() throws Exception {
+	public void validationUrlClientPositive() {
 		List<WhiteList> whiteListClient = this.obterWhileList();
 		when(this.whiteListRep.findByClient(this.client)).thenReturn(whiteListClient);
 
@@ -78,7 +78,7 @@ public class ValidationUrlTest {
 	}
 
 	@Test
-	public void validationUrlClientNegative() throws Exception {
+	public void validationUrlClientNegative() {
 		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
 
 		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();
@@ -94,7 +94,7 @@ public class ValidationUrlTest {
 	}
 	
 	@Test
-	public void validationUrlClientPositiveGlobal() throws Exception {
+	public void validationUrlClientPositiveGlobal() {
 		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
 
 		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();

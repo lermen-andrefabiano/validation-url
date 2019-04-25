@@ -17,9 +17,6 @@ public class PayloadValidationRequest implements Serializable {
 	@JsonProperty(required = true)
 	private Integer correlationId;
 
-	public PayloadValidationRequest() {
-	}
-
 	public String getClient() {
 		return client;
 	}

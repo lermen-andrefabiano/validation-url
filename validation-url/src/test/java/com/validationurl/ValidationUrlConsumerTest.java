@@ -64,7 +64,7 @@ public class ValidationUrlConsumerTest {
 	}
 
 	@Test
-	public void receiveSaveClientHistory() throws Exception {
+	public void receiveSaveClientHistory() {
 		PayloadValidationResponse payloadRes = new PayloadValidationResponse();
 		payloadRes.setCorrelationId(this.correlationId);
 		payloadRes.setMatch(Boolean.TRUE);
@@ -78,7 +78,7 @@ public class ValidationUrlConsumerTest {
 	}
 
 	@Test
-	public void receiveValidationUrlClient() throws Exception {
+	public void receiveValidationUrlClient() {
 		PayloadValidationResponse payloadRes = new PayloadValidationResponse();
 		payloadRes.setCorrelationId(this.correlationId);
 		payloadRes.setMatch(Boolean.TRUE);

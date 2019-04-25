@@ -1,7 +1,6 @@
 package com.validationurl.validation;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.validationurl.payload.PayloadValidationResponse;
 
 @Component
-public class ValidationUrlResponse implements Serializable {
+public class ValidationUrlResponse {
 
-	private static final long serialVersionUID = -4914372162904742433L;
-
-	private static final Logger logger = LoggerFactory.getLogger(ValidationUrlResponse.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUrlResponse.class);
 
 	@Value("${rabbitmq.queue.validation}")
 	private String queueValidation;
@@ -45,14 +42,17 @@ public class ValidationUrlResponse implements Serializable {
 		return new TopicExchange(this.exchangeResponse, true, false);
 	}
 
-	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) throws Exception {
-		logger.info(">> responseUrlClient");
+	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) {
+		LOGGER.info(">> responseUrlClient");
 
 		String payloadResposne = this.payloadToResponse(payloadValidationResponse);
 
-		this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payloadResposne);
+		if (payloadResposne != null) {
+			this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payloadResposne);
 
-		logger.info("<< validationUrlClient");
+		}
+
+		LOGGER.info("<< validationUrlClient");
 	}
 
 	private String payloadToResponse(final PayloadValidationResponse payloadValidationResponse) {
@@ -63,7 +63,7 @@ public class ValidationUrlResponse implements Serializable {
 
 			return jsonPayload;
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 
 		return jsonPayload;
