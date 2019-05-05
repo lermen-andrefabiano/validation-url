@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataBaseConfig {
 
-	private static final Logger logger = LoggerFactory.getLogger(DataBaseConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataBaseConfig.class);
 
 	private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
@@ -36,7 +36,7 @@ public class DataBaseConfig {
 
 		sleep();
 
-		logger.info("Criou BasicDataSource");
+		LOGGER.info("Criou BasicDataSource");
 
 		BasicDataSource dataSource = new BasicDataSource();
 
@@ -49,8 +49,8 @@ public class DataBaseConfig {
 	private void sleep() {
 		try {
 			Thread.sleep(WAIT_DELAY);
-		} catch (InterruptedException e) {
-			logger.error("Exception while sleeping", e);
+		} catch (Exception e) {
+			LOGGER.error("Exception while sleeping", e);
 		}
 	}
 
