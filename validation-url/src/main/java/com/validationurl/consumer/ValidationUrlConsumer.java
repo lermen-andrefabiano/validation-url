@@ -43,29 +43,20 @@ public class ValidationUrlConsumer {
 	private ClientHistoryResponseRepository clientHistoryResponseRep;
 
 	@RabbitListener(queues = { "${rabbitmq.queue.validation}" })
-<<<<<<< HEAD
 	public void receive(@Payload char[] payloadChars) {
 		LOGGER.info(">> ValidationUrlConsumer receive");
-=======
-	public void receive(@Payload String fileBody) {
-		LOGGER.info(">> ValidationUrlConsumer receive");
-		LOGGER.debug("Receive payload {}", fileBody);
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 		try {
-
 			String payload = new String(payloadChars);
 			
 			PayloadValidationRequest request = this.bodyToPayLoad(payload);
 
 			this.validationPayload(request);
 
-<<<<<<< HEAD
 			LOGGER.debug(String.format("client: %s url: %s correlationId: %s", request.getClient(), request.getUrl(),
 					request.getCorrelationId()));
-=======
+
 			LOGGER.debug("client: {} url: {} correlationId: {}", request.getClient(), request.getUrl(),	request.getCorrelationId());
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 			PayloadValidationResponse response = this.validationUrl.validationUrlClient(request.getClient(),
 					request.getUrl(), request.getCorrelationId());
@@ -75,11 +66,7 @@ public class ValidationUrlConsumer {
 			this.clientHistoryResponseRep.save(new ClientHistoryResponse(response.getRegex(), request.getClient(),
 					response.isMatch(), request.getUrl(), response.getCorrelationId()));
 		} catch (Exception e) {
-<<<<<<< HEAD
-			LOGGER.error("Erro ao consumir fila: " + e.getMessage());
-=======
 			LOGGER.error("Erro ao consumir fila: {}", e.getMessage());
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		}
 
 		LOGGER.info("<< ValidationUrlConsumer receive");

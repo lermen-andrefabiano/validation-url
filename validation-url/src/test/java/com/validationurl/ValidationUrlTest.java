@@ -23,8 +23,8 @@ import com.validationurl.repository.WhiteListGlobalRepository;
 import com.validationurl.repository.WhiteListRepository;
 import com.validationurl.validation.ValidationUrl;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = { ValidationUrl.class })
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = { ValidationUrl.class })
 public class ValidationUrlTest {
 
 	@MockBean
@@ -62,13 +62,8 @@ public class ValidationUrlTest {
 		this.clientMatch = "Client March";
 	}
 
-<<<<<<< HEAD
-	//@Test
-	public void validationUrlClientPositive() throws Exception {
-=======
 	@Test
 	public void validationUrlClientPositive() {
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		List<WhiteList> whiteListClient = this.obterWhileList();
 		when(this.whiteListRep.findByClient(this.client)).thenReturn(whiteListClient);
 
@@ -82,13 +77,8 @@ public class ValidationUrlTest {
 
 	}
 
-<<<<<<< HEAD
-	//@Test
-	public void validationUrlClientNegative() throws Exception {
-=======
 	@Test
 	public void validationUrlClientNegative() {
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
 
 		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();
@@ -103,13 +93,8 @@ public class ValidationUrlTest {
 
 	}
 	
-<<<<<<< HEAD
-	//@Test
-	public void validationUrlClientPositiveGlobal() throws Exception {
-=======
 	@Test
 	public void validationUrlClientPositiveGlobal() {
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		when(this.whiteListRep.findByClient(this.clientMatch)).thenReturn(new ArrayList<>());
 
 		List<WhiteListGlobal> whiteListClientGlobal = this.obterWhileListGlobal();

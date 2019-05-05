@@ -1,12 +1,8 @@
 package com.validationurl.validation;
 
 import java.io.IOException;
-<<<<<<< HEAD
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-=======
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,13 +65,8 @@ public class ValidationUrlResponse {
 		
 		String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
 
-<<<<<<< HEAD
-		this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
-=======
-		if (payloadResposne != null) {
-			this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payloadResposne);
->>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
-
+		if (payload != null) {
+			this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
 		}
 
 		LOGGER.info("<< validationUrlClient");
