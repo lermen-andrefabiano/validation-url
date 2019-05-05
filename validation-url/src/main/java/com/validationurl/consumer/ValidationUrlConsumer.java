@@ -45,12 +45,15 @@ public class ValidationUrlConsumer implements Serializable {
 	private ClientHistoryResponseRepository clientHistoryResponseRep;
 
 	@RabbitListener(queues = { "${rabbitmq.queue.validation}" })
-	public void receive(@Payload String fileBody) {
+	public void receive(@Payload char[] payloadChars) {
 		logger.info(">> ValidationUrlConsumer receive");
-		logger.debug(String.format("Receive payload %s", fileBody));
+		logger.debug(String.format("Receive payload %s", payloadChars));
 
 		try {
-			PayloadValidationRequest request = this.bodyToPayLoad(fileBody);
+
+			String payload = new String(payloadChars);
+			
+			PayloadValidationRequest request = this.bodyToPayLoad(payload);
 
 			this.validationPayload(request);
 
