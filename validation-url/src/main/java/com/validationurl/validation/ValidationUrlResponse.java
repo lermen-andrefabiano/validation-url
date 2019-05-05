@@ -66,7 +66,8 @@ public class ValidationUrlResponse {
 
 			String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
 
-			LOGGER.info("payload response {}", payload);
+			LOGGER.info("payload response {}", payloadResposne);
+			LOGGER.info("payload response ASCHII {}", payload);
 			
 			if (payload != null) {
 				this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
