@@ -43,6 +43,8 @@ public class InsertUrlConsumer {
 		try {
 			String payload = new String(payloadChars);
 			
+			LOGGER.info("payload {}", payload);
+			
 			PayloadInsertRequest request = this.bodyToPayLoad(payload);
 
 			this.validationPayload(request);

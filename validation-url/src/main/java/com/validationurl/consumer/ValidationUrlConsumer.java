@@ -49,6 +49,8 @@ public class ValidationUrlConsumer {
 		try {
 			String payload = new String(payloadChars);
 			
+			LOGGER.info("payload {}", payload);
+			
 			PayloadValidationRequest request = this.bodyToPayLoad(payload);
 
 			this.validationPayload(request);
