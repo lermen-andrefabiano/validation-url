@@ -66,8 +66,13 @@ public class ValidationUrlConsumerTest {
 		this.correlationId = 9;
 	}
 
+<<<<<<< HEAD
 	//@Test
 	public void receiveSaveClientHistory() throws Exception {
+=======
+	@Test
+	public void receiveSaveClientHistory() {
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		PayloadValidationResponse payloadRes = new PayloadValidationResponse();
 		payloadRes.setCorrelationId(this.correlationId);
 		payloadRes.setMatch(Boolean.TRUE);
@@ -80,8 +85,13 @@ public class ValidationUrlConsumerTest {
 		verify(this.clientHistoryResponseRep).save(any(ClientHistoryResponse.class));
 	}
 
+<<<<<<< HEAD
 	//@Test
 	public void receiveValidationUrlClient() throws Exception {
+=======
+	@Test
+	public void receiveValidationUrlClient() {
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		PayloadValidationResponse payloadRes = new PayloadValidationResponse();
 		payloadRes.setCorrelationId(this.correlationId);
 		payloadRes.setMatch(Boolean.TRUE);

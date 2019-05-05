@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.validationurl.BusinessException;
 import com.validationurl.model.ClientHistoryResponse;
 import com.validationurl.payload.PayloadValidationRequest;
 import com.validationurl.payload.PayloadValidationResponse;
@@ -42,8 +43,14 @@ public class ValidationUrlConsumer {
 	private ClientHistoryResponseRepository clientHistoryResponseRep;
 
 	@RabbitListener(queues = { "${rabbitmq.queue.validation}" })
+<<<<<<< HEAD
 	public void receive(@Payload char[] payloadChars) {
 		LOGGER.info(">> ValidationUrlConsumer receive");
+=======
+	public void receive(@Payload String fileBody) {
+		LOGGER.info(">> ValidationUrlConsumer receive");
+		LOGGER.debug("Receive payload {}", fileBody);
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 		try {
 
@@ -53,8 +60,12 @@ public class ValidationUrlConsumer {
 
 			this.validationPayload(request);
 
+<<<<<<< HEAD
 			LOGGER.debug(String.format("client: %s url: %s correlationId: %s", request.getClient(), request.getUrl(),
 					request.getCorrelationId()));
+=======
+			LOGGER.debug("client: {} url: {} correlationId: {}", request.getClient(), request.getUrl(),	request.getCorrelationId());
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 			PayloadValidationResponse response = this.validationUrl.validationUrlClient(request.getClient(),
 					request.getUrl(), request.getCorrelationId());
@@ -64,23 +75,27 @@ public class ValidationUrlConsumer {
 			this.clientHistoryResponseRep.save(new ClientHistoryResponse(response.getRegex(), request.getClient(),
 					response.isMatch(), request.getUrl(), response.getCorrelationId()));
 		} catch (Exception e) {
+<<<<<<< HEAD
 			LOGGER.error("Erro ao consumir fila: " + e.getMessage());
+=======
+			LOGGER.error("Erro ao consumir fila: {}", e.getMessage());
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		}
 
 		LOGGER.info("<< ValidationUrlConsumer receive");
 	}
 
-	private void validationPayload(PayloadValidationRequest request) throws Exception {
+	private void validationPayload(PayloadValidationRequest request) throws BusinessException {
 		if (request.getUrl() == null || request.getUrl().isEmpty()) {
-			throw new Exception("Url invalid");
+			throw new BusinessException("Url invalid");
 		}
 
 		if (request.getCorrelationId() == null) {
-			throw new Exception("Correlation invalid");
+			throw new BusinessException("Correlation invalid");
 		}
 
 		if (request.getClient() == null || request.getClient().isEmpty()) {
-			throw new Exception("Client invalid");
+			throw new BusinessException("Client invalid");
 		}
 	}
 

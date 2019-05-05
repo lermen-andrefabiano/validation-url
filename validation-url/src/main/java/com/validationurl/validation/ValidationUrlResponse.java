@@ -1,9 +1,12 @@
 package com.validationurl.validation;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+=======
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.validationurl.payload.PayloadValidationResponse;
 
 @Component
-public class ValidationUrlResponse implements Serializable {
+public class ValidationUrlResponse {
 
-	private static final long serialVersionUID = -4914372162904742433L;
-
-	private static final Logger logger = LoggerFactory.getLogger(ValidationUrlResponse.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUrlResponse.class);
 
 	@Value("${rabbitmq.queue.validation}")
 	private String queueValidation;
@@ -59,8 +60,8 @@ public class ValidationUrlResponse implements Serializable {
 	    return BindingBuilder.bind(queueResponseKey()).to(exchange()).with(this.responseKey);
 	}
 
-	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) throws Exception {
-		logger.info(">> responseUrlClient");
+	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) {
+		LOGGER.info(">> responseUrlClient");
 
 		String payloadResposne = this.payloadToResponse(payloadValidationResponse);
 		
@@ -68,9 +69,16 @@ public class ValidationUrlResponse implements Serializable {
 		
 		String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
 
+<<<<<<< HEAD
 		this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
+=======
+		if (payloadResposne != null) {
+			this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payloadResposne);
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
-		logger.info("<< validationUrlClient");
+		}
+
+		LOGGER.info("<< validationUrlClient");
 	}
 
 	private String payloadToResponse(final PayloadValidationResponse payloadValidationResponse) {
@@ -81,7 +89,7 @@ public class ValidationUrlResponse implements Serializable {
 
 			return jsonPayload;
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 
 		return jsonPayload;

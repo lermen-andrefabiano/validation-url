@@ -37,8 +37,13 @@ public class ValidationUrlResponseTest {
 		this.correlationId = 9;
 	}
 
+<<<<<<< HEAD
 	//@Test
 	public void responseUrlClient() throws Exception {
+=======
+	@Test
+	public void responseUrlClient() {
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		PayloadValidationResponse payloadRes = this.obterValidationResponse();
 		this.validationUrlResponse.responseUrlClient(payloadRes);
 

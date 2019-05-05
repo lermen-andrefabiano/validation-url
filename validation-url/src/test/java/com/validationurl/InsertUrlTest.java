@@ -5,12 +5,15 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.junit.Before;
+=======
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -39,6 +42,7 @@ public class InsertUrlTest {
 	@InjectMocks
 	private InsertUrlConsumer insertUrlConsumer;
 
+<<<<<<< HEAD
 	@Before
 	public void init() {
 	}
@@ -47,6 +51,12 @@ public class InsertUrlTest {
 	public void requestAscii() throws UnsupportedEncodingException {
 		char[] payloadChars = new char[] { 123,34,99,108,105,101,110,116,34,58,32,110,117,108,108,44,32,34,114,101,103,101,120,34,58,32,34,46,42,103,111,111,103,108,101,46,42,34,125 };
 		
+=======
+	@Test
+	public void saveClientWhiteList() {
+		String payload = "{\"client\": \"client rabbit\", \"regex\": \"[a-z]\"}";
+
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		when(this.whiteListRep.save(any(WhiteList.class))).thenReturn(null);
 
 		this.insertUrlConsumer.receive(payloadChars);
@@ -66,8 +76,13 @@ public class InsertUrlTest {
 
 	}
 
+<<<<<<< HEAD
 	//@Test
 	public void saveWhiteListGlobal() throws IOException {
+=======
+	@Test
+	public void saveWhiteListGlobal() {
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		String payload = "{\"client\": null, \"regex\": \"[a-z]\"}";
 
 		when(this.whiteListGlobalRep.save(any(WhiteListGlobal.class))).thenReturn(null);
@@ -78,8 +93,13 @@ public class InsertUrlTest {
 
 	}
 
+<<<<<<< HEAD
 	//@Test
 	public void invalidJSONIsReceived() throws IOException {
+=======
+	@Test
+	public void invalidJSONIsReceived() {
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		String payload = "{\"invalid\": \"client rabbit\", \"regex\": \"[a-z]\"}";
 
 		//this.insertUrlConsumer.receive(payload);

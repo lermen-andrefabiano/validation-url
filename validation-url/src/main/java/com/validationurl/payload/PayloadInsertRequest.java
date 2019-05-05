@@ -14,9 +14,6 @@ public class PayloadInsertRequest implements Serializable {
 	@JsonProperty(required = true)
 	private String regex;
 
-	public PayloadInsertRequest() {
-	}
-
 	public String getClient() {
 		return client;
 	}

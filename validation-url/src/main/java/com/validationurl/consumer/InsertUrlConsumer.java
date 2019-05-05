@@ -37,8 +37,14 @@ public class InsertUrlConsumer {
 	private WhiteListRepository whiteListRep;
 
 	@RabbitListener(queues = { "${rabbitmq.queue.insertion}" })
+<<<<<<< HEAD
 	public void receive(@Payload char[] payloadChars) {
 		LOGGER.info(">> InsertUrlConsumer receive");
+=======
+	public void receive(@Payload String fileBody) {
+		LOGGER.info(">> InsertUrlConsumer receive");
+		LOGGER.debug("Receive payload {}", fileBody);
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 
 		try {
 			
@@ -65,7 +71,11 @@ public class InsertUrlConsumer {
 
 	private void validationPayload(PayloadInsertRequest request) throws BusinessException {
 		if (request == null) {
+<<<<<<< HEAD
 			throw new BusinessException("Invalid payload");
+=======
+			throw new BusinessException("Invalid");
+>>>>>>> branch 'master' of https://github.com/lermen-andrefabiano/validation-url.git
 		}
 		if (request.getRegex() == null || request.getRegex().isEmpty()) {
 			throw new BusinessException("Regex invalid");
