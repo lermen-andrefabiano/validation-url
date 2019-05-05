@@ -73,7 +73,7 @@ public class ValidationUrlTest {
 		PayloadValidationResponse response = this.validationUrl.validationUrlClient(this.client, this.url,
 				this.correlationId);
 
-		assertEquals(response.isMatch(), Boolean.TRUE);
+		assertEquals(Boolean.TRUE, response.isMatch());
 
 	}
 
@@ -87,7 +87,7 @@ public class ValidationUrlTest {
 		PayloadValidationResponse response = this.validationUrl.validationUrlClient(this.clientMatch, this.url,
 				this.correlationId);
 
-		assertEquals(response.isMatch(), Boolean.FALSE);
+		assertEquals(Boolean.FALSE, response.isMatch());
 		
 		assertNull(response.getRegex());
 
@@ -103,7 +103,7 @@ public class ValidationUrlTest {
 		PayloadValidationResponse response = this.validationUrl.validationUrlClient(this.clientMatch, this.urlGlobal,
 				this.correlationId);
 
-		assertEquals(response.isMatch(), Boolean.TRUE);
+		assertEquals(Boolean.TRUE, response.isMatch());
 		
 	}
 

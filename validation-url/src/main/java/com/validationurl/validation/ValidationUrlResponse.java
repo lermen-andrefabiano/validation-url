@@ -61,15 +61,17 @@ public class ValidationUrlResponse {
 
 		String payloadResposne = this.payloadToResponse(payloadValidationResponse);
 		
-		byte[] payloadResposneAscii = payloadResposne.getBytes(StandardCharsets.US_ASCII);
-		
-		String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
+		if (payloadResposne != null) {
+			byte[] payloadResposneAscii = payloadResposne.getBytes(StandardCharsets.US_ASCII);
 
-		if (payload != null) {
-			this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
+			String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
+
+			if (payload != null) {
+				this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
+			}
 		}
 
-		LOGGER.info("<< validationUrlClient");
+		LOGGER.info("<< responseUrlClient");
 	}
 
 	private String payloadToResponse(final PayloadValidationResponse payloadValidationResponse) {

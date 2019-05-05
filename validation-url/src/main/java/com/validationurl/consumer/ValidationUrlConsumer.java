@@ -53,10 +53,7 @@ public class ValidationUrlConsumer {
 
 			this.validationPayload(request);
 
-			LOGGER.debug(String.format("client: %s url: %s correlationId: %s", request.getClient(), request.getUrl(),
-					request.getCorrelationId()));
-
-			LOGGER.debug("client: {} url: {} correlationId: {}", request.getClient(), request.getUrl(),	request.getCorrelationId());
+			LOGGER.debug("client: {} url: {} correlationId: {}", request.getClient(), request.getUrl(), request.getCorrelationId());
 
 			PayloadValidationResponse response = this.validationUrl.validationUrlClient(request.getClient(),
 					request.getUrl(), request.getCorrelationId());

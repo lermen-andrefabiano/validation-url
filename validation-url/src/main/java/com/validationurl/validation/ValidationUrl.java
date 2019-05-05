@@ -28,6 +28,7 @@ public class ValidationUrl {
 
 	public PayloadValidationResponse validationUrlClient(String client, String url, Integer correlationId) {
 		LOGEGR.info(">> validationUrlClient");
+		
 		PayloadValidationResponse response = new PayloadValidationResponse(correlationId);
 
 		List<WhiteList> whiteListClient = this.whiteListRep.findByClient(client);
@@ -46,7 +47,7 @@ public class ValidationUrl {
 	}
 
 	private void validtionRegex(String url, PayloadValidationResponse response, List<String> regexList) {
-		LOGEGR.info(">> validtionRegex");
+		LOGEGR.info(">> validationRegex");
 		boolean urlOk = false;
 
 		for (String regex : regexList) {
@@ -62,7 +63,7 @@ public class ValidationUrl {
 				break;
 			}
 		}
-		LOGEGR.info("<< validtionRegex");
+		LOGEGR.info("<< validationRegex");
 	}
 
 	private List<String> obterRegexList(List<WhiteList> whiteListClient, List<WhiteListGlobal> whiteListClientGlobal) {

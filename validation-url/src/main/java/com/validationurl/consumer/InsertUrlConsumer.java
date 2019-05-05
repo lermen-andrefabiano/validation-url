@@ -37,7 +37,6 @@ public class InsertUrlConsumer {
 	private WhiteListRepository whiteListRep;
 
 	@RabbitListener(queues = { "${rabbitmq.queue.insertion}" })
-
 	public void receive(@Payload char[] payloadChars) {
 		LOGGER.info(">> InsertUrlConsumer receive");
 
