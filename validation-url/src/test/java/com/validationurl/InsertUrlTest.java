@@ -7,8 +7,6 @@ import static org.mockito.Mockito.when;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import org.junit.Before;
-//github.com/lermen-andrefabiano/validation-url.git
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -45,34 +43,20 @@ public class InsertUrlTest {
 			110, 116, 32, 114, 97, 98, 98, 105, 116, 34, 44, 32, 34, 114, 101, 103, 101, 120, 34, 58, 32, 34, 91, 97,
 			45, 122, 93, 34, 125 };
 
-	@Before
-	public void init() {
-	}
-
-	@Test
-	public void dddd() {
-		String payload = "{\"client\": \"client rabbit\", \"regex\": \"[a-z]\"}";
-
-		String asciiString = Arrays.toString(payload.getBytes(StandardCharsets.US_ASCII)).replace("[", "").replace("]",
-				"");
-		System.out.println(asciiString);
-	}
-
 	@Test
 	public void saveClientWhiteList() {
 		when(this.whiteListRep.save(any(WhiteList.class))).thenReturn(null);
 
-		this.insertUrlConsumer.receive(this.CLIENT);
+		this.insertUrlConsumer.receive(CLIENT);
 
 		verify(this.whiteListRep).save(any(WhiteList.class));
 
 	}
-
 	@Test
 	public void saveWhiteListGlobal() {
 		when(this.whiteListGlobalRep.save(any(WhiteListGlobal.class))).thenReturn(null);
 
-		this.insertUrlConsumer.receive(this.CLIENT_NULL);
+		this.insertUrlConsumer.receive(CLIENT_NULL);
 
 		verify(this.whiteListGlobalRep).save(any(WhiteListGlobal.class));
 
