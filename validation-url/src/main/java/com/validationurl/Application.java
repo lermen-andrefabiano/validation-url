@@ -19,7 +19,7 @@ public class Application implements CommandLineRunner {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-	@Value("${rabbitmq.queue.number.consumers:2}")
+	@Value("${rabbitmq.queue.number.consumers:1}")
 	private int numberConsumers;
 
 	public static void main(String[] args) {

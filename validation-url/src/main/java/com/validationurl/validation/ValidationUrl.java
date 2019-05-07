@@ -40,31 +40,30 @@ public class ValidationUrl {
 		List<String> regexList = this.obterRegexList(whiteListClient, whiteListClientGlobal);
 		LOGEGR.debug("Regex size: {}", regexList.size());
 
-		this.validtionRegex(url, response, regexList);
+		this.isValidationRegex(url, response, regexList);
 
 		LOGEGR.info("<< validationUrlClient");
 		return response;
 	}
 
-	private void validtionRegex(String url, PayloadValidationResponse response, List<String> regexList) {
-		LOGEGR.info(">> validationRegex");
-		boolean urlOk = false;
+	private void isValidationRegex(String url, PayloadValidationResponse response, List<String> regexList) {
+		LOGEGR.info(">> isValidationRegex");
 
 		for (String regex : regexList) {
-			try {
-				urlOk = url.matches(regex);
-			} catch (Exception e) {
-				LOGEGR.error("Erro ao criar regex!");
-			}
-
-			if (urlOk) {
-				response.setMatch(urlOk);
+			if (this.isValidURL(url, regex)) {
+				LOGEGR.info("Achou regex {}", regex);
+				response.setMatch(true);
 				response.setRegex(regex);
 				break;
 			}
 		}
-		LOGEGR.info("<< validationRegex");
+		
+		LOGEGR.info("<< isValidationRegex");
 	}
+	
+	private boolean isValidURL(String url, String regex) {
+        return url.matches(regex);
+    }
 
 	private List<String> obterRegexList(List<WhiteList> whiteListClient, List<WhiteListGlobal> whiteListClientGlobal) {
 		LOGEGR.info("Gerando regex do client");

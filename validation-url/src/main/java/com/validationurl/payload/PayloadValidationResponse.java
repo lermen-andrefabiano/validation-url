@@ -22,6 +22,7 @@ public class PayloadValidationResponse implements Serializable {
 
 	public PayloadValidationResponse(Integer correlationId) {
 		this.correlationId = correlationId;
+		this.match = false;
 	}
 
 	public boolean isMatch() {
