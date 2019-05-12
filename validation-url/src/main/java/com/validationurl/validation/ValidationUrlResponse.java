@@ -56,7 +56,7 @@ public class ValidationUrlResponse {
 	    return BindingBuilder.bind(queueResponseKey()).to(exchange()).with(this.responseKey);
 	}
 
-	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) throws UnsupportedEncodingException {
+	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) {
 		LOGGER.info(">> responseUrlClient");
 
 		String payloadResposne = this.payloadToResponse(payloadValidationResponse);

@@ -40,7 +40,7 @@ public class ValidationUrlResponseTest {
 	}
 
 	@Test
-	public void responseUrlClient() throws UnsupportedEncodingException {
+	public void responseUrlClient() {
 		PayloadValidationResponse payloadRes = this.obterValidationResponse();
 		this.validationUrlResponse.responseUrlClient(payloadRes);
 
