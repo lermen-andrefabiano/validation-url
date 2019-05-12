@@ -1,7 +1,6 @@
 package com.validationurl.validation;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
