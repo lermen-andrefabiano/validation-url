@@ -18,7 +18,7 @@ import com.validationurl.repository.WhiteListRepository;
 @Component
 public class ValidationUrl {
 
-	private static final Logger LOGEGR = LoggerFactory.getLogger(ValidationUrl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUrl.class);
 
 	@Autowired
 	private WhiteListRepository whiteListRep;
@@ -27,38 +27,38 @@ public class ValidationUrl {
 	private WhiteListGlobalRepository whiteListGlobalRep;
 
 	public PayloadValidationResponse validationUrlClient(String client, String url, Integer correlationId) {
-		LOGEGR.info(">> validationUrlClient");
+		LOGGER.info(">> validationUrlClient");
 		
 		PayloadValidationResponse response = new PayloadValidationResponse(correlationId);
 
 		List<WhiteList> whiteListClient = this.whiteListRep.findByClient(client);
-		LOGEGR.debug("White list size: {}", whiteListClient.size());
+		LOGGER.debug("White list size: {}", whiteListClient.size());
 
 		List<WhiteListGlobal> whiteListClientGlobal = this.whiteListGlobalRep.findAll();
-		LOGEGR.debug("White list global size: {}", whiteListClientGlobal.size());
+		LOGGER.debug("White list global size: {}", whiteListClientGlobal.size());
 
 		List<String> regexList = this.obterRegexList(whiteListClient, whiteListClientGlobal);
-		LOGEGR.debug("Regex size: {}", regexList.size());
+		LOGGER.debug("Regex size: {}", regexList.size());
 
 		this.isValidationRegex(url, response, regexList);
 
-		LOGEGR.info("<< validationUrlClient");
+		LOGGER.info("<< validationUrlClient");
 		return response;
 	}
 
 	private void isValidationRegex(String url, PayloadValidationResponse response, List<String> regexList) {
-		LOGEGR.info(">> isValidationRegex");
+		LOGGER.info(">> isValidationRegex");
 
 		for (String regex : regexList) {
 			if (this.isValidURL(url, regex)) {
-				LOGEGR.info("Achou regex {}", regex);
+				LOGGER.info("Achou regex {}", regex);
 				response.setMatch(true);
 				response.setRegex(regex);
 				break;
 			}
 		}
 		
-		LOGEGR.info("<< isValidationRegex");
+		LOGGER.info("<< isValidationRegex");
 	}
 	
 	private boolean isValidURL(String url, String regex) {
@@ -66,13 +66,13 @@ public class ValidationUrl {
     }
 
 	private List<String> obterRegexList(List<WhiteList> whiteListClient, List<WhiteListGlobal> whiteListClientGlobal) {
-		LOGEGR.info("Gerando regex do client");
+		LOGGER.info("Gerando regex do client");
 
 		List<String> regexListClient = whiteListClient.stream().map(white -> {
 			return white.getRegex();
 		}).collect(Collectors.toList());
 
-		LOGEGR.info("Gerando regex global");
+		LOGGER.info("Gerando regex global");
 		List<String> regexListGlobal = whiteListClientGlobal.stream().map(white -> {
 			return white.getRegex();
 		}).collect(Collectors.toList());

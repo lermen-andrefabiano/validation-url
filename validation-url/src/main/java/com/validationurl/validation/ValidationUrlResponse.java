@@ -1,8 +1,8 @@
 package com.validationurl.validation;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class ValidationUrlResponse {
 	    return BindingBuilder.bind(queueResponseKey()).to(exchange()).with(this.responseKey);
 	}
 
-	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) {
+	public void responseUrlClient(PayloadValidationResponse payloadValidationResponse) throws UnsupportedEncodingException {
 		LOGGER.info(">> responseUrlClient");
 
 		String payloadResposne = this.payloadToResponse(payloadValidationResponse);
@@ -64,13 +64,11 @@ public class ValidationUrlResponse {
 		if (payloadResposne != null) {
 			byte[] payloadResposneAscii = payloadResposne.getBytes(StandardCharsets.US_ASCII);
 
-			String payload = Arrays.toString(payloadResposneAscii).replace("[", "").replace("]", "");
-
 			LOGGER.info("payload response {}", payloadResposne);
-			LOGGER.info("payload response ASCHII {}", payload);
+			LOGGER.info("payload response ASCII {}", payloadResposneAscii);
 			
-			if (payload != null) {
-				this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payload);
+			if (payloadResposneAscii != null) {
+				this.rabbitTemplate.convertAndSend(this.exchangeResponse, this.responseKey, payloadResposneAscii);
 			}
 		}
 

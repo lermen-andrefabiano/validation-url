@@ -3,6 +3,8 @@ package com.validationurl;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,11 +40,11 @@ public class ValidationUrlResponseTest {
 	}
 
 	@Test
-	public void responseUrlClient() {
+	public void responseUrlClient() throws UnsupportedEncodingException {
 		PayloadValidationResponse payloadRes = this.obterValidationResponse();
 		this.validationUrlResponse.responseUrlClient(payloadRes);
 
-		verify(this.rabbitTemplate).convertAndSend(any(String.class), any(String.class), any(String.class));
+		verify(this.rabbitTemplate).convertAndSend(any(String.class), any(String.class), any(byte[].class));
 
 	}
 
